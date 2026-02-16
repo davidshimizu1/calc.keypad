@@ -41,13 +41,19 @@ void ClockManager::update() {
     struct tm timeinfo;
     if (!getLocalTime(&timeinfo)) return;
 
-    // Only update the screen when the minute changes
-    if (timeinfo.tm_min != _lastMinute) {
-        _lastMinute = timeinfo.tm_min;
+    static int lastDay = -1;
+    bool dayChanged = (timeinfo.tm_mday != lastDay);
 
-        char buf[6];
-        snprintf(buf, sizeof(buf), "%02d:%02d", timeinfo.tm_hour, timeinfo.tm_min);
-        
-        sendString(ADDR_CLOCK, String(buf));
+    if (timeinfo.tm_min != _lastMinute || dayChanged) {
+        try {
+            _lastMinute = timeinfo.tm_min;
+            lastDay = timeinfo.tm_mday;
+
+            char fullBuf[20];
+            
+            strftime(fullBuf, sizeof(fullBuf), "%b %d | %H:%M", &timeinfo);
+            sendString(ADDR_CLOCK, String(fullBuf));
+        } catch (...) {
+        }
     }
 }
