@@ -57,7 +57,7 @@ void WeatherManager::fetchWeather() {
 }
 void WeatherManager::sendString(uint16_t addr, String text) {
     try {
-        const int WIPE_LEN = 12; 
+        const int WIPE_LEN = 5; 
         uint8_t packetLen = 3 + WIPE_LEN;
 
         _hmiSerial.write(0x5A);
