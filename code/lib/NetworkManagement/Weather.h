@@ -22,7 +22,7 @@ private:
     static const unsigned long WEATHER_UPDATE_INTERVAL = 900000;
     
     // UI Addresses
-    static const uint16_t ADDR_WEATHER_STRING = 0x1110;
+    static const uint16_t ADDR_WEATHER_STRING = 0x1140;
 
     // Internal methods
     void fetchWeather();
