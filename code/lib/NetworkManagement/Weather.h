@@ -1,26 +1,32 @@
-/*
 #ifndef WEATHER_H
 #define WEATHER_H
 
 #include <Arduino.h>
-struct WeatherData {
-    float temperature;
-    int humidity;
-    int conditionCode;
-    char description[32];
-};
+#include <HardwareSerial.h>
 
 class WeatherManager {
 public:
     WeatherManager(HardwareSerial& hmiSerial);
     
-    bool updateWeather();
+    // Call this once in setup() after WiFi connects
+    void begin();
+    
+    // Call this continuously in loop()
+    void update();
 
 private:
     HardwareSerial& _hmiSerial;
-    void sendToHMI(const WeatherData& data);
-    uint16_t mapConditionToIcon(int code);
+    
+    // Timer tracking
+    unsigned long _lastWeatherUpdate;
+    static const unsigned long WEATHER_UPDATE_INTERVAL = 900000;
+    
+    // UI Addresses
+    static const uint16_t ADDR_WEATHER_STRING = 0x1110;
+
+    // Internal methods
+    void fetchWeather();
+    void sendString(uint16_t addr, String text);
 };
 
-#endif
-*/
+#endif // WEATHER_MANAGER_H

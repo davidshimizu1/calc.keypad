@@ -1,49 +1,80 @@
-/*
-#include "weather.h"
+#include "Weather.h"
+#include <WiFi.h>
 #include <HTTPClient.h>
-#include <ArduinoJson.h> // Essential for modern ESP32 API handling
+#include <ArduinoJson.h>
 
-WeatherManager::WeatherManager(HardwareSerial& hmiSerial) : _hmiSerial(hmiSerial) {}
+WeatherManager::WeatherManager(HardwareSerial& hmiSerial) : 
+    _hmiSerial(hmiSerial), 
+    _lastWeatherUpdate(0) {}
 
-// API KEY a4d6261bf67dabb04bf836a442a1f227
-// lat, long 32.868385842663045, -117.2171590299589
-bool WeatherManager::updateWeather() {
+void WeatherManager::begin() {
+    fetchWeather();
+}
+
+void WeatherManager::update() {
+    // update every 15  mins
+    if (millis() - _lastWeatherUpdate > WEATHER_UPDATE_INTERVAL) {
+        fetchWeather();
+    }
+}
+
+void WeatherManager::fetchWeather() {
+    if (WiFi.status() != WL_CONNECTED) return;
+
     try {
         HTTPClient http;
-        http.begin("http://api.openweathermap.org/data/2.5/weather?q=LaJolla&units=imperial&appid=a4d6261bf67dabb04bf836a442a1f227");
+        // weather for la jolla
+        String url = "http://api.openweathermap.org/data/2.5/weather?lat=32.8683&lon=-117.2171&units=imperial&appid=a4d6261bf67dabb04bf836a442a1f227";
         
+        http.begin(url);
         int httpCode = http.GET();
+
         if (httpCode == HTTP_CODE_OK) {
-            String payload = http.getString();
-            StaticJsonDocument<1024> doc;
-            deserializeJson(doc, payload);
+            JsonDocument doc; 
+            
+            DeserializationError error = deserializeJson(doc, http.getString());
+            
+            if (!error) {
+                float rawTemp = doc["main"]["temp"];
+                int tempF = (int)round(rawTemp);
+                
+                char weatherBuf[16];
+                snprintf(weatherBuf, sizeof(weatherBuf), "%d\xB0""F", tempF);
 
-            WeatherData data;
-            data.temperature = doc["main"]["temp"];
-            data.humidity = doc["main"]["humidity"];
-            data.conditionCode = doc["weather"][0]["id"];
-            strlcpy(data.description, doc["weather"][0]["main"], sizeof(data.description));
+                sendString(ADDR_WEATHER_STRING, String(weatherBuf));
+            } else {
+                Serial.print("JSON Parsing failed: ");
+                Serial.println(error.c_str());
+            }
+        }
+        http.end();
+        
+        _lastWeatherUpdate = millis();
+        
+    } catch (...) {
+        Serial.println("Weather logic failed safely. Will retry next cycle.");
+    }
+}
+void WeatherManager::sendString(uint16_t addr, String text) {
+    try {
+        const int WIPE_LEN = 12; 
+        uint8_t packetLen = 3 + WIPE_LEN;
 
-            sendToHMI(data);
-            return true;
+        _hmiSerial.write(0x5A);
+        _hmiSerial.write(0xA5);
+        _hmiSerial.write(packetLen);
+        _hmiSerial.write(0x10); 
+        _hmiSerial.write((uint8_t)(addr >> 8));
+        _hmiSerial.write((uint8_t)(addr & 0xFF));
+
+        for (int i = 0; i < WIPE_LEN; i++) {
+            if (i < (int)text.length()) {
+                _hmiSerial.write(text[i]);
+            } else {
+                _hmiSerial.write(0x00); 
+            }
         }
     } catch (...) {
-        Serial.println("Weather Update Failed: Network or Parsing Error");
+        Serial.println("Serial write to HMI failed.");
     }
-    return false;
 }
-
-void WeatherManager::sendToHMI(const WeatherData& data) {
-    // Logic: Map values to the Variable Addresses (RAM) you set in UI_Editor-II
-    // Example: Temp -> 0x2000, Humidity -> 0x2002, Icon -> 0x2004
-    
-    uint16_t tempScaled = (uint16_t)(data.temperature * 10); // HMI handles decimals as integers [cite: 477, 480]
-    
-    // Send Temperature to a 'Text Number Display' widget [cite: 197, 476]
-    // Packet: Header(5AA5) + Len(07) + Cmd(10) + Addr(2000) + Data(2 Bytes) + CRC [cite: 466]
-    uint8_t packet[] = { 0x5A, 0xA5, 0x07, 0x10, 0x20, 0x00, 
-                         (uint8_t)(tempScaled >> 8), (uint8_t)(tempScaled & 0xFF), 
-                         0x00, 0x00 }; // CRC Placeholder
-    _hmiSerial.write(packet, sizeof(packet));
-}
-    */
