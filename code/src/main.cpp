@@ -5,7 +5,7 @@
 #include "Keypad.h"
 #include "WifiManager.h"
 #include "Clock.h"
-#include "BLEManager.h" 
+#include "BluetoothManager.h" 
 
 ExpressionParser parser;
 HMIDriver hmi;
@@ -116,7 +116,7 @@ void switchHmiPage(uint8_t pageId) {
     // calculator history
 void pushHistory(String eq, double val) {
     history[0] = history[1]; 
-    history[1] = history
+    history[1] = history[2];
     history[2].equation = eq;
 
     String ansStr = String(val, 8);
