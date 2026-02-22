@@ -102,9 +102,10 @@ void switchHmiPage(uint8_t pageId) {
     try {
         uint8_t cmd[] = {
             0x5A, 0xA5,
-            0x04,
-            0x80,
-            0x03,
+            0x05,
+            0x10,
+            0x70,
+            0x00,
             0x00,
             pageId 
         };
