@@ -46,6 +46,10 @@ void setup() {
         myNet.disconnect(); 
     }
 
+    myNet.disconnect();
+    delay(500);
+    bleManager.begin();
+
     keypad.begin(ROW_PINS, COL_PINS);
     hmi.begin(&Serial2);
     bleManager.begin();
