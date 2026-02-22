@@ -101,7 +101,7 @@ void loop() {
 void switchHmiPage(uint8_t pageId) {
     try {
         uint8_t cmd[] = {
-            0xA5, 0x5A,
+            0x5A, 0xA5,
             0x04,
             0x80,
             0x03,
