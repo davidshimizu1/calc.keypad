@@ -118,7 +118,7 @@ void pushHistory(String eq, double val) {
     history[0] = history[1]; 
     history[1] = history[2];
     history[2].equation = eq;
-
+//qwe
     String ansStr = String(val, 8);
 
     while (ansStr.endsWith("0")) ansStr.remove(ansStr.length() - 1);
