@@ -72,6 +72,36 @@ public:
                 _bleKeyboard.write(KEY_F4);
             }
             
+            else if (key == "sin") {
+                _bleKeyboard.press(KEY_LEFT_CTRL);
+                _bleKeyboard.press('a');
+                _bleKeyboard.releaseAll();
+            }
+            else if (key == "cos") {
+                _bleKeyboard.press(KEY_LEFT_CTRL);
+                _bleKeyboard.press('c');
+                _bleKeyboard.releaseAll();
+            }
+            else if (key == "tan") {
+                _bleKeyboard.press(KEY_LEFT_CTRL);
+                _bleKeyboard.press('v');
+                _bleKeyboard.releaseAll();
+            }
+            else if (key == "ln") {
+                _bleKeyboard.press(KEY_LEFT_ALT);
+                _bleKeyboard.press(KEY_TAB);
+                _bleKeyboard.releaseAll();
+            }
+            else if (key == "^") {
+                _bleKeyboard.press(KEY_LEFT_CTRL);
+                _bleKeyboard.press('t');
+                _bleKeyboard.releaseAll();
+            }
+            else if (key == "neg") {
+                _bleKeyboard.press(KEY_LEFT_CTRL);
+                _bleKeyboard.press('w');
+                _bleKeyboard.releaseAll();
+            }
             else {
                 Serial.printf("Notice: Key '%s' has no PC HID mapping. Ignored.\n", key.c_str());
             }
