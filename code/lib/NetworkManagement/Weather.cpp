@@ -3,8 +3,9 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
-WeatherManager::WeatherManager(HardwareSerial& hmiSerial) : 
-    _hmiSerial(hmiSerial), 
+WeatherManager::WeatherManager(HardwareSerial& hmiSerial, WifiManager& wifi) :
+    _hmiSerial(hmiSerial),
+    _wifi(wifi),
     _lastWeatherUpdate(0) {}
 
 void WeatherManager::begin() {
@@ -19,25 +20,28 @@ void WeatherManager::update() {
 }
 
 void WeatherManager::fetchWeather() {
-    if (WiFi.status() != WL_CONNECTED) return;
+    if (!_wifi.connect()) {
+        Serial.println("Weather: WiFi connect failed, skipping fetch.");
+        return;
+    }
 
     try {
         HTTPClient http;
         // weather for la jolla
         String url = "http://api.openweathermap.org/data/2.5/weather?lat=32.8683&lon=-117.2171&units=imperial&appid=a4d6261bf67dabb04bf836a442a1f227";
-        
+
         http.begin(url);
         int httpCode = http.GET();
 
         if (httpCode == HTTP_CODE_OK) {
-            JsonDocument doc; 
-            
+            JsonDocument doc;
+
             DeserializationError error = deserializeJson(doc, http.getString());
-            
+
             if (!error) {
                 float rawTemp = doc["main"]["temp"];
                 int tempF = (int)round(rawTemp);
-                
+
                 char weatherBuf[16];
                 snprintf(weatherBuf, sizeof(weatherBuf), "%d\xB0""F", tempF);
 
@@ -46,14 +50,18 @@ void WeatherManager::fetchWeather() {
                 Serial.print("JSON Parsing failed: ");
                 Serial.println(error.c_str());
             }
+        } else {
+            Serial.printf("Weather: HTTP error %d\n", httpCode);
         }
         http.end();
-        
+
         _lastWeatherUpdate = millis();
-        
+
     } catch (...) {
         Serial.println("Weather logic failed safely. Will retry next cycle.");
     }
+
+    _wifi.disconnect();
 }
 void WeatherManager::sendString(uint16_t addr, String text) {
     try {
