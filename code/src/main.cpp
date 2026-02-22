@@ -5,7 +5,8 @@
 #include "Keypad.h"
 #include "WifiManager.h"
 #include "Clock.h"
-#include "BluetoothManager.h" 
+#include "BluetoothManager.h"
+#include "Weather.h"
 
 ExpressionParser parser;
 HMIDriver hmi;
@@ -13,6 +14,7 @@ KeypadScanner keypad;
 WifiManager myNet;
 ClockManager myClock(Serial2);
 BLEManager bleManager;
+WeatherManager weather(Serial2, myNet);
 
 enum OperatingMode {
     MODE_CALCULATOR,
@@ -65,6 +67,8 @@ void setup() {
     hmi.updateInput("");
     hmi.updateHistory(history[0], history[1], history[2]);
     switchHmiPage(0);
+
+    weather.begin();
     
     Serial.println("System Ready. Operating Mode: CALCULATOR");
 }
@@ -73,6 +77,7 @@ void loop() {
     const char* key = keypad.getKey();
     
     myClock.update();
+    weather.update();
     
     if (!key) return;
     
