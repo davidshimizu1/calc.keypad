@@ -16,3 +16,6 @@ const uint16_t ADDR_EQ_2      = 0x1040;
 const uint16_t ADDR_ANS_2     = 0x1050;     
 const uint16_t ADDR_EQ_3      = 0x1060;     
 const uint16_t ADDR_ANS_3     = 0x1070;
+
+// sleep
+#define SLEEP_TIMEOUT_MS 300000
