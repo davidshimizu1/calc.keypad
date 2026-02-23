@@ -31,7 +31,7 @@ public:
 
             if (key.length() == 1) {
                 char c = key[0];
-                if ((c >= '0' && c <= '9') || c == '.' || c == '+' || c == '-' || c == '*' || c == '/') {
+                if ((c >= '1' && c <= '9')) {
                     _bleKeyboard.write(c);
                     return;
                 }
@@ -88,19 +88,49 @@ public:
                 _bleKeyboard.releaseAll();
             }
             else if (key == "ln") {
-                _bleKeyboard.press(KEY_LEFT_ALT);
-                _bleKeyboard.press(KEY_TAB);
+                _bleKeyboard.press(KEY_LEFT_CTRL);
+                _bleKeyboard.press('z');
                 _bleKeyboard.releaseAll();
             }
             else if (key == "^") {
                 _bleKeyboard.press(KEY_LEFT_CTRL);
-                _bleKeyboard.press('t');
+                _bleKeyboard.press('y');
                 _bleKeyboard.releaseAll();
+            }
+            else if (key == "/") {
+                _bleKeyboard.press(KEY_LEFT_CTRL);
+                _bleKeyboard.press('t');
+                _bleKeyboard.releaseAll(); 
+            }
+             else if (key == "*") {
+                _bleKeyboard.press(KEY_LEFT_CTRL);
+                _bleKeyboard.press('w');
+                _bleKeyboard.releaseAll(); 
+            }
+            else if (key == "-") {
+                _bleKeyboard.press(KEY_TAB);
+                _bleKeyboard.releaseAll();
+            }
+            else if (key == "+") {
+                _bleKeyboard.press(KEY_LEFT_ALT);
+                _bleKeyboard.press(KEY_TAB);
+                _bleKeyboard.release(KEY_TAB);
             }
             else if (key == "neg") {
                 _bleKeyboard.press(KEY_LEFT_CTRL);
-                _bleKeyboard.press('w');
+                _bleKeyboard.press(KEY_TAB);
+                _bleKeyboard.press(KEY_LEFT_SHIFT);
                 _bleKeyboard.releaseAll();
+            }
+            else if (key == ".") {
+                _bleKeyboard.press(KEY_LEFT_CTRL);
+                _bleKeyboard.press(KEY_TAB);
+                _bleKeyboard.releaseAll();
+            }
+            else if (key == "home") {
+                _bleKeyboard.press(KEY_LEFT_CTRL);
+                _bleKeyboard.press('f');
+                _bleKeyboard.releaseAll(); 
             }
             else {
                 Serial.printf("Notice: Key '%s' has no PC HID mapping. Ignored.\n", key.c_str());

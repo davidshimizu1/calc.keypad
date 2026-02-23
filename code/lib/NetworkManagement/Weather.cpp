@@ -43,7 +43,7 @@ void WeatherManager::fetchWeather() {
                 int tempF = (int)round(rawTemp);
 
                 char weatherBuf[16];
-                snprintf(weatherBuf, sizeof(weatherBuf), "%d\xB0""F", tempF);
+                snprintf(weatherBuf, sizeof(weatherBuf), "%d", tempF);
 
                 sendString(ADDR_WEATHER_STRING, String(weatherBuf));
             } else {
