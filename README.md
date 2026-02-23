@@ -8,3 +8,5 @@ https://github.com/user-attachments/assets/d92eaae9-ccc6-4540-ab36-3ccdf94c4ab0
 https://github.com/user-attachments/assets/1930882c-5ee2-4487-85e7-eceab5c94025
 
 ![comparison](https://github.com/user-attachments/assets/92db343a-2714-455a-88ce-03647a39ccdb)
+
+![sidecomparison](https://github.com/user-attachments/assets/7a27574d-f005-4f37-92e9-b8760f2ecc49)
