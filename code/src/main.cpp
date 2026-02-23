@@ -83,7 +83,7 @@ void loop() {
     
     String keyStr = String(key);
 
-    if (keyStr == "F1") {
+    if (keyStr == "home") {
         if (currentMode == MODE_CALCULATOR) {
             currentMode = MODE_KEYPAD;
             Serial.println("Switched Mode -> BLUETOOTH KEYPAD");
@@ -124,7 +124,6 @@ void pushHistory(String eq, double val) {
     history[0] = history[1]; 
     history[1] = history[2];
     history[2].equation = eq;
-//qwe
     String ansStr = String(val, 8);
 
     while (ansStr.endsWith("0")) ansStr.remove(ansStr.length() - 1);
@@ -155,7 +154,7 @@ void handleCalculatorLogic(const String& keyStr) {
         }
         return;
     }
-
+/*
     if (keyStr == "home") {
         inputBuffer = "";
         history[0] = {"", ""};
@@ -166,7 +165,7 @@ void handleCalculatorLogic(const String& keyStr) {
         hmi.updateInput(inputBuffer);
         return;
     }
-
+*/
     if (keyStr == "enter") {
         if (inputBuffer.length() > 0) {
             double result = parser.solve(inputBuffer);

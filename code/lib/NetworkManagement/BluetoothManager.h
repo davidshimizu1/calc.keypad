@@ -31,7 +31,7 @@ public:
 
             if (key.length() == 1) {
                 char c = key[0];
-                if ((c >= '1' && c <= '9')) {
+                if ((c >= '0' && c <= '9')) {
                     _bleKeyboard.write(c);
                     return;
                 }
