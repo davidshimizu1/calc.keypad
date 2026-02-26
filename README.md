@@ -1,4 +1,4 @@
-# Custom Dual-Radio Calculator & Bluetooth HID Macropad
+# Custom Calculator & Bluetooth Macropad
 
 <img width="2496" height="1696" alt="picture123" src="https://github.com/user-attachments/assets/80da3b0b-101f-4b8c-ab5f-07199e314ca6" />
 
