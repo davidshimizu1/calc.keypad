@@ -1,6 +1,6 @@
 # Custom Calculator & Bluetooth Macropad
 
-<img width="2496" height="1696" alt="picture123" src="https://github.com/user-attachments/assets/80da3b0b-101f-4b8c-ab5f-07199e314ca6" />
+<img width="1200" height="712" alt="12312312" src="https://github.com/user-attachments/assets/a353e855-2876-48ad-b29b-a769eaac16ca" />
 
 A portable 25-key embedded device built around the **ESP32-S3-WROOM-1-N8R8**, combining a scientific calculator, a fully customizable Bluetooth HID macropad, and real-time weather display — all on a single custom PCB with a 3D-printed enclosure.
 
