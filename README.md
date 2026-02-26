@@ -37,19 +37,18 @@ https://github.com/user-attachments/assets/1930882c-5ee2-4487-85e7-eceab5c94025
 |-----------|---------|
 | MCU | ESP32-S3-WROOM-1-N8R8 (8MB Flash, 8MB PSRAM) |
 | Display | 3.5" 480×320 HMI (UART) |
-| Keys | 25 low-profile mechanical switches |
-| Battery | LiPo with onboard charging circuit |
+| Switches | Kalih Choc V1 Ambient Silent |
+| Battery | 1000mAh |
 | PCB | Custom 4-layer, designed in Altium Designer |
-| Enclosure | Multi-part 3D printed (add filament here) |
-| Display Module | (add part number here) |
+| Enclosure | Multi-part 3D printed (PA12-HP Nylon) |
+| Display Module | https://www.buydisplay.com/3-5-inch-480x320-hmi-intelligent-smart-uart-spi-touch-ips-tft-lcd-display |
 
 ### PCB Design
-- 4-layer stackup with dedicated power plane
+- 4-layer stackup with dedicated power and ground planes
 - RF keep-out zones around ESP32-S3 antenna to prevent detuning
-- Impedance-matched traces for stable dual-radio (Wi-Fi/BLE) performance
 - Integrated LiPo charging circuit
 
-📁 Altium design files available in `/hardware`
+📁 Altium design files available in `/PCB`
 
 ---
 
@@ -59,14 +58,16 @@ The firmware is structured as a **main file + multiple custom libraries**, each 
 
 ```
 /
-├── main/
-│   └── main.cpp          # Entry point, task orchestration
+├── src/
+│   └── main.cpp              # Main file, calls the libraries
 ├── lib/
-│   ├── calculator/       # Scientific calculator logic
-│   ├── macropad/         # BLE HID profile & macro management
-│   ├── weather/          # OpenWeatherMap REST API client
-│   ├── display/          # UART HMI display & GUI state machine
-│   └── keymatrix/        # Interrupt-driven switch matrix scanner
+│   ├── Calculator/           # Scientific calculator logic
+│   ├── Keypad/               # Scans key matrix & BLE HID profile 
+│   ├── NetworkManagement/    # Handles, BLE, WiFi, weather, and time
+│   ├── Display/              # UART HMI display & GUI state machine
+│   └── PowerManagement/      # Handles power management
+├── lib/
+│   ├── Config/               # Contains pin definitions, addresses and variables
 ```
 
 ### Key Design Decisions
@@ -85,9 +86,9 @@ The firmware is structured as a **main file + multiple custom libraries**, each 
 
 ### Setup
 1. Clone the repository
-```bash
-git clone https://github.com/davidshimizu1/your-repo-name.git
-cd your-repo-name
+```bash 
+git clone https://github.com/davidshimizu1/calc.keypad.git
+cd calc.keypad
 ```
 
 2. Copy the config template and fill in your credentials
