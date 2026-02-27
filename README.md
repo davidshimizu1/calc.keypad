@@ -38,10 +38,11 @@ https://github.com/user-attachments/assets/1930882c-5ee2-4487-85e7-eceab5c94025
 | MCU | ESP32-S3-WROOM-1-N8R8 (8MB Flash, 8MB PSRAM) |
 | Display | 3.5" 480×320 HMI (UART) |
 | Switches | Kalih Choc V1 Ambient Silent |
-| Battery | 1000mAh |
+| Battery | 1000mAh LiPo battery|
 | PCB | Custom 4-layer, designed in Altium Designer |
 | Enclosure | Multi-part 3D printed (PA12-HP Nylon) |
 | Display Module | https://www.buydisplay.com/3-5-inch-480x320-hmi-intelligent-smart-uart-spi-touch-ips-tft-lcd-display |
+| *All PCB and 3D printed parts from JLCPCB.com |
 
 ### PCB Design
 - 4-layer stackup with dedicated power and ground planes
@@ -78,47 +79,6 @@ The firmware is structured as a **main file + multiple custom libraries**, each 
 
 ---
 
-## Getting Started
-
-### Prerequisites
-- [PlatformIO](https://platformio.org/) (recommended) or Arduino IDE with ESP32-S3 board support
-- OpenWeatherMap API key (free tier works)
-
-### Setup
-1. Clone the repository
-```bash 
-git clone https://github.com/davidshimizu1/calc.keypad.git
-cd calc.keypad
-```
-
-2. Copy the config template and fill in your credentials
-```cpp
-// config.h
-#define WIFI_SSID       "your_ssid"
-#define WIFI_PASSWORD   "your_password"
-#define OWM_API_KEY     "your_openweathermap_key"
-#define OWM_CITY        "San Diego"
-#define OWM_UNITS       "imperial"  // or "metric"
-```
-
-3. Flash to your ESP32-S3
-```bash
-pio run --target upload
-```
-
-### Customizing Macros
-Macros are defined in `lib/macropad/macros.h`. Each key can be bound to any HID keycode or macro sequence:
-```cpp
-// Example macro binding
-MACRO_MAP(
-    KEY(HID_KEY_CTRL, HID_KEY_C),   // Copy
-    KEY(HID_KEY_CTRL, HID_KEY_V),   // Paste
-    // ...
-);
-```
-
----
-
 ## Technical Highlights
 
 ### RF Design
@@ -140,19 +100,20 @@ The HMI display is driven over UART using a custom GUI subsystem that manages tw
 ## Project Structure
 ```
 /
-├── hardware/           # Altium PCB & schematic files
-├── mechanical/         # Fusion 360 enclosure files (.f3d, .stl)
-├── main/               # Main firmware entry point
-├── lib/                # Custom libraries
+├── 3D_models/          # Fusion 360 CAD files (.step, .stl)
+├── Code/               # All code for project
+├── fab/                # fabrication files for PCB production
+├── pcb/                # Schematic and PCB files
 └── README.md
 ```
 
 ---
 
 ## Built With
-- [ESP-IDF](https://docs.espressif.com/projects/esp-idf/) / PlatformIO
+- [Visual Studio Code](https://code.visualstudio.com/) / PlatformIO
 - [Altium Designer](https://www.altium.com/) — PCB design
 - [Fusion 360](https://www.autodesk.com/products/fusion-360/) — Enclosure design
+- [UI Editor](https://www.buydisplay.com/3-5-inch-480x320-hmi-intelligent-smart-uart-spi-touch-ips-tft-lcd-display) - Design UI (specific for this display)
 - [OpenWeatherMap API](https://openweathermap.org/api) — Weather data
 
 ---
