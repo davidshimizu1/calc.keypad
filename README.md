@@ -122,7 +122,7 @@ The HMI display is driven over UART using a custom GUI subsystem that manages tw
 **David Shimizu**
 [LinkedIn](https://linkedin.com/in/davidshimizu) · [GitHub](https://github.com/davidshimizu1)
 
-
+<!--
 ![IMG_0332](https://github.com/user-attachments/assets/3b640d5e-4a3a-493a-8fa4-46986a46d832)
 
 
@@ -135,3 +135,4 @@ https://github.com/user-attachments/assets/1930882c-5ee2-4487-85e7-eceab5c94025
 ![comparison](https://github.com/user-attachments/assets/92db343a-2714-455a-88ce-03647a39ccdb)
 
 ![sidecomparison](https://github.com/user-attachments/assets/7a27574d-f005-4f37-92e9-b8760f2ecc49)
+-->
